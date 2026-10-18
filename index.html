@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>V Слёт ЦРЛП — выбор активностей</title>
+    <style>
+      :root {
+        --ink: #15191b;
+        --muted: #737b7e;
+        --line: #e9eded;
+        --green: #86df22;
+        --mint: #0fcdbb;
+        --bg: #fff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Verdana, Arial, sans-serif;
+        font-size: 14px;
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: auto;
+        padding: 44px 32px 100px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+      }
+      .eyebrow {
+        color: #a0a5a5;
+        font-size: 13px;
+        letter-spacing: 0.02em;
+      }
+      .button {
+        border: 0;
+        background: linear-gradient(110deg, #39c4d7, #4cdb9a);
+        color: #fff;
+        border-radius: 14px;
+        padding: 15px 24px;
+        font:
+          700 14px Verdana,
+          sans-serif;
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      h1 {
+        font-size: clamp(27px, 3.6vw, 42px);
+        line-height: 1.24;
+        letter-spacing: -0.035em;
+        margin: 56px 0 14px;
+      }
+      h1 span {
+        font-weight: 400;
+      }
+      .intro {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 42px;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .live {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        color: #5f686b;
+        font-size: 12px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: #34cc91;
+        border-radius: 50%;
+      }
+      .section {
+        border-left: 3px solid var(--accent);
+        padding: 6px 0 8px 30px;
+        margin: 0 0 50px;
+      }
+      .section-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 125px 125px;
+        gap: 18px;
+        align-items: end;
+        margin-bottom: 16px;
+      }
+      h2 {
+        margin: 0 0 8px;
+        font-size: 19px;
+        line-height: 1.35;
+        letter-spacing: -0.025em;
+      }
+      .hint {
+        color: #858b8d;
+        font-size: 11px;
+        line-height: 1.6;
+      }
+      .column-label {
+        color: #777f81;
+        font-size: 11px;
+        padding-bottom: 4px;
+      }
+      .activity {
+        border-bottom: 1px solid #f0f2f1;
+      }
+      .activity:last-child {
+        border-bottom: 0;
+      }
+      .activity-main {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 125px 125px;
+        gap: 18px;
+        align-items: center;
+        padding: 11px 0;
+      }
+      .activity-name {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        background: none;
+        border: 0;
+        padding: 0;
+        color: #222;
+        font:
+          700 12px/1.55 Verdana,
+          sans-serif;
+        text-align: left;
+        cursor: pointer;
+      }
+      .plus {
+        color: #b2b8b8;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.2;
+        flex: none;
+        width: 13px;
+      }
+      .activity-name:hover .name-text {
+        text-decoration: underline;
+        text-decoration-color: #a4d8cc;
+        text-underline-offset: 3px;
+      }
+      .capacity {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        min-height: 29px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+        color: #15201b;
+        background: #fff;
+      }
+      .capacity-fill {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 0;
+        background: var(--accent);
+        opacity: 0;
+        transition:
+          width 0.5s ease,
+          opacity 0.5s ease;
+        z-index: -1;
+      }
+      .capacity-label {
+        position: relative;
+        z-index: 1;
+      }
+      .status {
+        font-size: 11px;
+        color: #606a6a;
+      }
+      .status.closed {
+        color: #969c9c;
+      }
+      .details {
+        margin: 0 145px 15px 25px;
+        padding: 17px 20px 18px;
+        border-left: 2px solid var(--accent);
+        border-radius: 0 10px 10px 0;
+        background: #fcfefd;
+        color: #344346;
+        font-size: 12px;
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+      }
+      .announcement-text p {
+        margin: 0 0 12px;
+      }
+      .announcement-text p:last-child {
+        margin-bottom: 0;
+      }
+      .announcement-text ul {
+        margin: 4px 0 13px;
+        padding-left: 22px;
+        list-style-type: disc;
+      }
+      .announcement-text li {
+        padding-left: 3px;
+        margin: 3px 0;
+      }
+      .announcement-text ul ul {
+        list-style-type: circle;
+        margin: 3px 0 5px;
+      }
+      .presenters {
+        font-style: italic;
+        color: #68777a;
+        margin-bottom: 17px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #edf1ef;
+      }
+      .presenters p {
+        margin: 0 0 5px;
+      }
+      .presenters p:last-child {
+        margin-bottom: 0;
+      }
+      /* Быстрое и плавное раскрытие анонса без задержки */
+      .details-shell {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition:
+          grid-template-rows 220ms ease-out,
+          opacity 170ms ease-out;
+      }
+      .details-shell.open {
+        grid-template-rows: 1fr;
+        opacity: 1;
+      }
+      .details-clip {
+        min-height: 0;
+        overflow: hidden;
+      }
+      .form-area {
+        border-top: 1px solid #e8eceb;
+        padding-top: 28px;
+        margin-top: 55px;
+        scroll-margin-top: 20px;
+      }
+      .form-area h2 {
+        margin-bottom: 16px;
+      }
+      .registration-instructions {
+        max-width: 850px;
+        padding: 8px 0 10px;
+        font-size: 13px;
+        line-height: 1.85;
+        color: #3d4949;
+      }
+      .registration-instructions p {
+        margin: 0 0 15px;
+      }
+      .registration-instructions strong {
+        color: #15191b;
+      }
+      .registration-actions {
+        margin-top: 14px;
+      }
+      .registration-actions .button {
+        display: inline-block;
+      }
+      .message {
+        padding: 15px 18px;
+        background: #fff5f3;
+        color: #a23e31;
+        border-radius: 12px;
+        margin: 20px 0;
+      }
+      .retry {
+        background: none;
+        border: 0;
+        padding: 0;
+        color: inherit;
+        font: inherit;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .skeleton {
+        color: #8a9191;
+        padding: 16px 0;
+      }
+      @media (max-width: 700px) {
+        .wrap {
+          padding: 25px 19px 65px;
+        }
+        h1 {
+          margin-top: 40px;
+        }
+        .button {
+          padding: 12px 16px;
+        }
+        .section {
+          padding-left: 16px;
+          margin-bottom: 38px;
+        }
+        .section-head {
+          display: block;
+        }
+        .column-label {
+          display: none;
+        }
+        .activity-main {
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 8px 12px;
+          padding: 13px 0 8px;
+        }
+        .activity-name {
+          grid-column: 1/-1;
+          font-size: 12px;
+        }
+        .capacity {
+          margin-left: 25px;
+          justify-self: start;
+          padding: 6px 12px;
+        }
+        .status {
+          text-align: right;
+        }
+        .details {
+          margin: 8px 0 12px 25px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .capacity-fill,
+        .details-shell {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <div class="eyebrow">Информационное табло</div>
+        <a
+          class="button"
+          href="https://anketolog.ru/rs/1069524/WzQgwk0C"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Записаться ↗</a
+        >
+      </header>
+      <h1>
+        V Слёт ЦРЛП и амбассадоров РЛП:<br /><span
+          >выбор активностей на 30 октября</span
+        >
+      </h1>
+      <div class="intro">
+        <div class="subtitle">
+          Нажмите на название активности, чтобы раскрыть информацию о ней.
+        </div>
+        <div class="live">
+          <span class="dot"></span
+          ><span id="updated">Получаем актуальные данные…</span>
+        </div>
+      </div>
+      <div id="error" class="message" hidden></div>
+      <main id="board">
+        <p class="skeleton">Загружаем поездки и мастерские…</p>
+      </main>
+      <section id="registration" class="form-area">
+        <h2>Запись на активности V Слёта</h2>
+        <div class="registration-instructions">
+          <p>
+            Пожалуйста,
+            <strong
+              >до 21 октября 2026 года, 09:00 по московскому времени</strong
+            >, заполните анкету и выберите активности, в которых планируете
+            принять участие 30 октября.
+          </p>
+          <p>
+            Перед заполнением анкеты ознакомьтесь с описаниями поездок и
+            мастерских и проверьте количество свободных мест на табло. Данные о
+            заполненности обновляются автоматически.
+          </p>
+          <p>
+            Если на выбранную активность свободных мест уже нет, пожалуйста,
+            выберите другой доступный вариант.
+          </p>
+          <p>
+            <strong>Обратите внимание:</strong> если участник не сделает выбор
+            до указанного срока, организаторы самостоятельно распределят его на
+            активности с оставшимися свободными местами. В этом случае учесть
+            индивидуальные предпочтения может быть невозможно.
+          </p>
+        </div>
+        <div class="registration-actions">
+          <a
+            class="button"
+            href="https://anketolog.ru/rs/1069524/WzQgwk0C"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Заполнить анкету ↗</a
+          >
+        </div>
+      </section>
+    </div>
+    <script>
+      const API_URL =
+        "https://script.google.com/macros/s/AKfycbxq5kdhMgctyErKlO4WZa2gmT63PPkmiuTZLyzUbJSIYJZ5W03K1IHGj3f9aTwcX40Oew/exec";
+      const REFRESH_MS = 15000;
+      const sections = [
+        {
+          key: "visit",
+
+          title: "Поездки в ОО Свердловской области · 10:00–11:30",
+
+          color: "#87e10b",
+          filter: (a) => a.type === "school",
+        },
+        {
+          key: "12:45",
+
+          title: "Авторские мастерские · 12:45–13:30",
+
+          color: "#12d5c1",
+          filter: (a) => a.type === "workshop" && a.time_slot === "12:45",
+        },
+        {
+          key: "14:45",
+
+          title: "Авторские мастерские · 14:45–15:30",
+
+          color: "#12d5c1",
+          filter: (a) => a.type === "workshop" && a.time_slot === "14:45",
+        },
+      ];
+      const board = document.getElementById("board");
+      const errorBox = document.getElementById("error");
+      const expanded = new Set();
+      let loading = false;
+      let hasRendered = false;
+      function el(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = String(text);
+        return node;
+      }
+      // Форматируем текст безопасно: только DOM-элементы и textContent.
+      function formatAnnouncement(raw, type) {
+        const root = el("div", "announcement-text");
+        const text = String(raw || "")
+          .replace(/\r\n?/g, "\n")
+          .trim();
+        if (!text) {
+          root.append(el("p", "", "Анонс пока не добавлен."));
+          return root;
+        }
+        let body = text;
+        // В анонсах мастерских ведущие перечислены перед первым пустым абзацем.
+        if (type === "workshop") {
+          const match = text.match(/^([\s\S]*?)\n\s*\n([\s\S]+)$/);
+          if (match) {
+            const presenters = el("div", "presenters");
+            match[1]
+              .split("\n")
+              .map((line) => line.trim())
+              .filter(Boolean)
+              .forEach((line) => presenters.append(el("p", "", line)));
+            root.append(presenters);
+            body = match[2];
+          }
+        }
+        let list = null;
+        let nested = null;
+        let paragraphLines = [];
+        function flushParagraph() {
+          if (paragraphLines.length) {
+            root.append(el("p", "", paragraphLines.join(" ")));
+            paragraphLines = [];
+          }
+        }
+        body.split("\n").forEach((original) => {
+          const line = original.trim();
+          if (!line) {
+            flushParagraph();
+            list = null;
+            nested = null;
+            return;
+          }
+          // Маркеры из Word: символ галочки, квадратики, обычные bullets.
+          const top = line.match(
+            /^[\uF0FC\uF0A7\u25A1\u2610\u2611\u2022\u2023\u25AA\u25CF\u25CB\u2713\u2714\-]\s*(.+)$/u,
+          );
+          const sub = line.match(/^[oоOО]\s+(.+)$/u);
+          if (top || sub) {
+            flushParagraph();
+            if (!list) {
+              list = el("ul");
+              root.append(list);
+            }
+            if (sub && list.lastElementChild) {
+              if (!nested) {
+                nested = el("ul");
+                list.lastElementChild.append(nested);
+              }
+              nested.append(el("li", "", sub[1]));
+            } else {
+              nested = null;
+              list.append(el("li", "", (top || sub)[1]));
+            }
+          } else {
+            list = null;
+            nested = null;
+            paragraphLines.push(line);
+          }
+        });
+        flushParagraph();
+        return root;
+      }
+      function render(activities) {
+        const fragment = document.createDocumentFragment();
+        sections.forEach((group) => {
+          const items = activities
+            .filter(group.filter)
+            .sort((a, b) => Number(a.display_order) - Number(b.display_order));
+          const section = el("section", "section");
+          section.style.setProperty("--accent", group.color);
+          const head = el("div", "section-head");
+          const titleBlock = el("div");
+          titleBlock.append(
+            el("h2", "", group.title),
+            el(
+              "div",
+              "hint",
+              "Анонс откроется при нажатии на название активности",
+            ),
+          );
+          head.append(
+            titleBlock,
+            el("div", "column-label", "Занято / всего мест"),
+            el("div", "column-label", "Статус записи"),
+          );
+          section.append(head);
+          items.forEach((a) => {
+            const occupied = Math.max(0, Number(a.occupied) || 0);
+            const capacity = Math.max(0, Number(a.capacity) || 0);
+            const available = Math.max(0, Number(a.available) || 0);
+            const full = capacity > 0 && available === 0;
+            const closed = full || /закрыт/i.test(String(a.status || ""));
+            const item = el("div", "activity");
+            const main = el("div", "activity-main");
+            const name = el("button", "activity-name");
+            name.type = "button";
+            name.setAttribute(
+              "aria-expanded",
+              String(expanded.has(a.activity_id)),
+            );
+            const plus = el(
+              "span",
+              "plus",
+              expanded.has(a.activity_id) ? "−" : "+",
+            );
+            plus.setAttribute("aria-hidden", "true");
+            name.append(plus, el("span", "name-text", a.name));
+            const capacityBadge = el("div", "capacity");
+            const fillPercent = capacity
+              ? Math.min(100, (occupied / capacity) * 100)
+              : 0;
+            const capacityFill = el("span", "capacity-fill");
+            capacityFill.style.width = fillPercent + "%";
+            capacityFill.style.opacity =
+              fillPercent === 0
+                ? "0"
+                : String(0.55 + (0.45 * fillPercent) / 100);
+            capacityFill.setAttribute("aria-hidden", "true");
+            capacityBadge.append(
+              capacityFill,
+              el("span", "capacity-label", `${occupied} из ${capacity}`),
+            );
+            capacityBadge.title = `Свободно мест: ${available}`;
+            const status = el(
+              "div",
+              "status" + (closed ? " closed" : ""),
+              closed ? "Запись закрыта" : a.status || "Запись идёт",
+            );
+            main.append(name, capacityBadge, status);
+            const detailsShell = el("div", "details-shell");
+            const detailsClip = el("div", "details-clip");
+            const details = el("div", "details");
+            const announcement = String(a.announcement || "").trim();
+            const announcementText = formatAnnouncement(announcement, a.type);
+            details.append(announcementText);
+            detailsClip.append(details);
+            detailsShell.append(detailsClip);
+            detailsShell.id = "details-" + a.activity_id;
+            name.setAttribute("aria-controls", detailsShell.id);
+            if (expanded.has(a.activity_id)) detailsShell.classList.add("open");
+            name.addEventListener("click", () => {
+              const open = detailsShell.classList.toggle("open");
+              name.setAttribute("aria-expanded", String(open));
+              plus.textContent = open ? "−" : "+";
+              if (open) expanded.add(a.activity_id);
+              else expanded.delete(a.activity_id);
+            });
+            item.append(main, detailsShell);
+            section.append(item);
+          });
+          fragment.append(section);
+        });
+        board.replaceChildren(fragment);
+        hasRendered = true;
+      }
+      async function loadBoard() {
+        if (loading) return;
+        loading = true;
+        try {
+          const response = await fetch(`${API_URL}?view=board`, {
+            cache: "no-store",
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          if (!data.success || !Array.isArray(data.activities))
+            throw new Error(data.error || "Некорректный ответ API");
+          render(data.activities);
+          errorBox.hidden = true;
+          const updated = new Date(data.updated_at);
+          document.getElementById("updated").textContent =
+            "Данные обновлены в " +
+            (Number.isNaN(updated.getTime())
+              ? new Date()
+              : updated
+            ).toLocaleTimeString("ru-RU", {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            });
+        } catch (err) {
+          errorBox.hidden = false;
+          errorBox.replaceChildren(
+            document.createTextNode(
+              (hasRendered
+                ? "Не удалось обновить данные. Показаны последние полученные значения. "
+                : "Не удалось загрузить данные. ") +
+                err.message +
+                " ",
+            ),
+          );
+          const retry = el("button", "retry", "Повторить");
+          retry.addEventListener("click", loadBoard);
+          errorBox.append(retry);
+          if (!hasRendered) board.replaceChildren();
+        } finally {
+          loading = false;
+        }
+      }
+      loadBoard();
+      setInterval(loadBoard, REFRESH_MS);
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) loadBoard();
+      });
+    </script>
+  </body>
+</html>
