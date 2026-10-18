@@ -447,6 +447,30 @@
       </section>
     </div>
     <script>
+      function typograph(text) {
+        if (typeof text !== "string") return text;
+
+        return (
+          text
+            // Короткие предлоги и союзы
+            .replace(/(^|[\s(\[«„])([а-яё]{1,2}) +(?=\S)/giu, "$1$2\u00A0")
+
+            // г. Екатеринбург, п. Шабровский, с. Ивановка
+            .replace(
+              /(^|[\s(\[«„])(г|п|с|д|ул|пр|пер)\.\s+(?=\S)/giu,
+              "$1$2.\u00A0",
+            )
+
+            // № 41
+            .replace(/№\s+(\d+)/g, "№\u00A0$1")
+
+            // 30 октября, 1 ноября
+            .replace(
+              /(\d{1,2}) +(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)\b/giu,
+              "$1\u00A0$2",
+            )
+        );
+      }
       const API_URL =
         "https://script.google.com/macros/s/AKfycbxq5kdhMgctyErKlO4WZa2gmT63PPkmiuTZLyzUbJSIYJZ5W03K1IHGj3f9aTwcX40Oew/exec";
       const REFRESH_MS = 15000;
@@ -484,7 +508,9 @@
       function el(tag, className, text) {
         const node = document.createElement(tag);
         if (className) node.className = className;
-        if (text !== undefined) node.textContent = String(text);
+        if (text !== undefined) {
+          node.textContent = typograph(String(text));
+        }
         return node;
       }
       // Форматируем текст безопасно: только DOM-элементы и textContent.
