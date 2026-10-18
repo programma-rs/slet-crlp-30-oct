@@ -64,25 +64,32 @@
       h1 span {
         font-weight: 400;
       }
+
       .intro {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
         align-items: center;
-        justify-content: space-between;
-        gap: 12px;
+        column-gap: 60px;
         margin-bottom: 42px;
       }
+
       .subtitle {
         color: var(--muted);
         font-size: 13px;
+        line-height: 1.6;
+        max-width: 650px;
       }
+
       .live {
         display: inline-flex;
         gap: 8px;
         align-items: center;
+        justify-self: end;
+        white-space: nowrap;
         color: #5f686b;
         font-size: 12px;
       }
+
       .dot {
         width: 8px;
         height: 8px;
@@ -376,7 +383,9 @@
       </h1>
       <div class="intro">
         <div class="subtitle">
-          Нажмите на название активности, чтобы раскрыть информацию о ней.
+          30 октября пройдут несколько параллельных активностей. Пожалуйста,
+          ознакомьтесь с&nbsp;наличием свободных мест и с&nbsp;анонсами
+          активностей, а затем отразите ваш выбор в анкете.
         </div>
         <div class="live">
           <span class="dot"></span
@@ -547,14 +556,18 @@
           section.style.setProperty("--accent", group.color);
           const head = el("div", "section-head");
           const titleBlock = el("div");
+
           titleBlock.append(
             el("h2", "", group.title),
             el(
               "div",
               "hint",
-              "Анонс откроется при нажатии на название активности",
+              group.key === "12:45"
+                ? "Вы сможете посетить две мастерские: одну — с 12:45 до 13:30, вторую — с 14:45 до 15:30. Убедитесь, что для двух временных слотов выбраны разные мастерские. Нажмите на название мастерской, чтобы прочитать анонс."
+                : "Анонс откроется при нажатии на название.",
             ),
           );
+
           head.append(
             titleBlock,
             el("div", "column-label", "Занято / всего мест"),
@@ -652,7 +665,6 @@
             ).toLocaleTimeString("ru-RU", {
               hour: "2-digit",
               minute: "2-digit",
-              second: "2-digit",
             });
         } catch (err) {
           errorBox.hidden = false;
